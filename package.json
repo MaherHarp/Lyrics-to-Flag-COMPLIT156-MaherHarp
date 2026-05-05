@@ -1,0 +1,19 @@
+{
+  "name": "complit156-flag-from-lyric",
+  "private": true,
+  "packageManager": "pnpm@9.15.5",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "format": "prettier -w .",
+    "test": "pnpm -C packages/shared test && pnpm -C apps/api test && pnpm -C apps/web test"
+  },
+  "devDependencies": {
+    "pnpm": "^9.15.5",
+    "prettier": "^3.6.2"
+  }
+}
