@@ -12,12 +12,22 @@ import { generateBlazonForCountry } from './lib/blazon.js';
 
 const PORT = Number(process.env.PORT ?? 4000);
 
+/** Comma-separated origins, or * to reflect any Origin (for public APIs). */
+function corsOriginOption(): boolean | string[] {
+  const raw = process.env.CORS_ORIGINS?.trim();
+  const local = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+  if (!raw) return local;
+  if (raw === '*') return true;
+  const extra = raw.split(',').map((s) => s.trim()).filter(Boolean);
+  return [...new Set([...local, ...extra])];
+}
+
 const app = express();
 app.disable('x-powered-by');
 app.use(express.json({ limit: '1mb' }));
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+    origin: corsOriginOption(),
     methods: ['GET', 'POST'],
   }),
 );

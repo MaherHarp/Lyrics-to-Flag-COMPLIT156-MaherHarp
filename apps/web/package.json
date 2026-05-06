@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "WATCHPACK_POLLING=true WATCHPACK_POLLING_INTERVAL=1000 next dev -p 3000 -H 127.0.0.1",
     "build": "next build",
