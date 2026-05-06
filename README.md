@@ -18,9 +18,10 @@ App runs at `http://127.0.0.1:3000`. The API is in-process via Next route handle
 ### Deploy to Vercel
 
 1. Push the repo to GitHub.
-2. Import it on Vercel. Leave **Root Directory** at repo root.
-3. The root `vercel.json` installs with `pnpm`, builds only `@complit156/web` (and its workspace deps), and sets the Next.js framework preset.
-4. No environment variables required. `.nvmrc` pins Node 20 for Vercel builds.
+2. Import it on Vercel.
+3. **Important:** in the Vercel project's **Settings → General → Root Directory**, set it to **`apps/web`**, then redeploy. Vercel needs `next` in the package.json at the configured root, so this must be `apps/web`, not the repo root.
+4. `apps/web/vercel.json` walks up to the workspace root for `pnpm install` and the filtered build, so the monorepo still works end to end.
+5. No environment variables required. `.nvmrc` pins Node 20 for Vercel builds.
 
 API endpoints (same origin in production):
 
