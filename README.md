@@ -2,27 +2,28 @@
 
 ### Repository layout
 
-- **`apps/web`** Next.js (App Router) + TypeScript + Tailwind
-- **`apps/api`** Node.js + Express + TypeScript
-- **`packages/shared`** Shared Zod schemas + types
+- **`apps/web`** Next.js (App Router) + TypeScript + Tailwind. Includes API route handlers under `app/api/v1/*` — the whole app deploys as a single Vercel project.
+- **`apps/api`** (legacy) Standalone Express server. Optional, kept for reference. Not used in production.
+- **`packages/shared`** Shared Zod schemas + types.
 
 ### Dev
 
 ```bash
 pnpm i
-pnpm dev
+pnpm --filter @complit156/web dev
 ```
 
-### Deploy frontend (Vercel)
+App runs at `http://127.0.0.1:3000`. The API is in-process via Next route handlers — no separate server to start.
 
-Use the **Next.js app** in `apps/web`, not the Express API. If the API folder is the Vercel project root, the serverless runtime can crash (`FUNCTION_INVOCATION_FAILED`).
+### Deploy to Vercel
 
-**Option A (recommended for this repo)** Leave Vercel **Root Directory** at the repository root (`.`). The root **`vercel.json`** installs with pnpm, builds only `@complit156/web` and its workspace deps (skips the Express API), and sets the Next.js framework preset so output is picked up correctly.
+1. Push the repo to GitHub.
+2. Import it on Vercel. Leave **Root Directory** at repo root.
+3. The root `vercel.json` installs with `pnpm`, builds only `@complit156/web` (and its workspace deps), and sets the Next.js framework preset.
+4. No environment variables required. `.nvmrc` pins Node 20 for Vercel builds.
 
-**Option B** Set Vercel **Root Directory** to **`apps/web`**. Then **`apps/web/vercel.json`** runs install and build from the monorepo parent.
+API endpoints (same origin in production):
 
-For both options, add **`NEXT_PUBLIC_API_BASE_URL`** in Vercel (your deployed API base URL, no trailing slash). **`.nvmrc`** pins Node 20 for Vercel builds.
-
-### Deploy API (not Vercel serverless)
-
-Run `apps/api` on any Node host (Render, Railway, Fly.io, a VPS). Set **`CORS_ORIGINS`** to your Vercel site origin (comma-separated if you have preview and production), for example `https://your-app.vercel.app`. For local dev, defaults already allow `localhost` and `127.0.0.1` on port 3000.
+- `POST /api/v1/generate`
+- `GET  /api/v1/flags`
+- `GET  /api/v1/flags/:code`

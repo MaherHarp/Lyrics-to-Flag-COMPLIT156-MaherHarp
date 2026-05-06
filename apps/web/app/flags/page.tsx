@@ -4,7 +4,7 @@ import type { FlagInfo, FlagListResponse } from '@complit156/shared';
 import { useEffect, useMemo, useState } from 'react';
 import { Card, CardHeader, FieldLabel, Pill } from '../../components/ui';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 const REGIONS: { value: string; label: string }[] = [
   { value: '', label: 'All regions' },
@@ -80,7 +80,7 @@ export default function FlagLibraryPage() {
         if (region) params.set('region', region);
         if (family) params.set('family', family);
         if (search.trim()) params.set('q', search.trim());
-        const res = await fetch(`${API_BASE}/v1/flags?${params.toString()}`);
+        const res = await fetch(`${API_BASE}/api/v1/flags?${params.toString()}`);
         if (!res.ok) {
           const t = await res.text();
           throw new Error(`API error (${res.status}). ${t.slice(0, 200)}`);

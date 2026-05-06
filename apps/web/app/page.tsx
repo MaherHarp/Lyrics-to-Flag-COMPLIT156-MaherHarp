@@ -1,7 +1,6 @@
 'use client';
 
 import type { GenerateResponse, InputSummary, MatchedCountry } from '@complit156/shared';
-import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import {
   Button,
@@ -14,7 +13,7 @@ import {
   Textarea,
 } from '../components/ui';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
 
 function parseNonEmptyLines(lyric: string): string[] {
   return lyric
@@ -286,7 +285,7 @@ export default function HomePage() {
     setError(null);
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/v1/generate`, {
+      const res = await fetch(`${API_BASE}/api/v1/generate`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ lyric, mode: 'relaxed', seed: null }),
@@ -309,17 +308,9 @@ export default function HomePage() {
     <div className="space-y-8">
       {/* ── Hero ── */}
       <div className="space-y-2.5">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <h1 className="text-2xl font-semibold tracking-tight text-white/90">
-            Flag-from-Lyric
-          </h1>
-          <Link
-            href="/flags"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-white/65 hover:bg-white/[0.08] hover:text-white/85 hover:border-white/[0.12] transition"
-          >
-            Browse Flag Library
-          </Link>
-        </div>
+        <h1 className="text-2xl font-semibold tracking-tight text-white/90">
+          Flag-from-Lyric
+        </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-white/38">
           A computational literary experiment. Paste any lyric, and the system extracts
           its formal features (repetition patterns, lexical density, emotional register),
