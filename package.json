@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",
+    "build:web": "pnpm --filter @complit156/web... build",
     "lint": "pnpm -r lint",
     "format": "prettier -w .",
     "test": "pnpm -C packages/shared test && pnpm -C apps/api test && pnpm -C apps/web test"

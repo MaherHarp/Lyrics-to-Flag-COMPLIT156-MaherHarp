@@ -15,13 +15,13 @@ pnpm dev
 
 ### Deploy frontend (Vercel)
 
-Use the **Next.js app** in `apps/web`, not the Express API. If the API is the Vercel project root, the serverless runtime will crash (`FUNCTION_INVOCATION_FAILED`).
+Use the **Next.js app** in `apps/web`, not the Express API. If the API folder is the Vercel project root, the serverless runtime can crash (`FUNCTION_INVOCATION_FAILED`).
 
-1. Vercel project **Root Directory** → `apps/web`
-2. **Environment variables** → add `NEXT_PUBLIC_API_BASE_URL` with your deployed API base URL (no trailing slash), for example `https://your-api.onrender.com`
-3. Redeploy
+**Option A (recommended for this repo)** Leave Vercel **Root Directory** at the repository root (`.`). The root **`vercel.json`** installs with pnpm, builds only `@complit156/web` and its workspace deps (skips the Express API), and sets the Next.js framework preset so output is picked up correctly.
 
-`apps/web/vercel.json` runs `pnpm install` and `pnpm --filter @complit156/web build` from the monorepo root so `packages/shared` resolves.
+**Option B** Set Vercel **Root Directory** to **`apps/web`**. Then **`apps/web/vercel.json`** runs install and build from the monorepo parent.
+
+For both options, add **`NEXT_PUBLIC_API_BASE_URL`** in Vercel (your deployed API base URL, no trailing slash). **`.nvmrc`** pins Node 20 for Vercel builds.
 
 ### Deploy API (not Vercel serverless)
 
